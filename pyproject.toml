@@ -22,7 +22,10 @@ classifiers = [
 ]
 # Add runtime dependencies here if any are known upfront
 dependencies = [
-    "universal_mcp>=0.1.22",
+    "langgraph>=0.6.4",
+    "universal-mcp==0.1.23",
+    "dnspython>=2.4.0",
+    "requests>=2.31.0",
 ]
 
 [project.optional-dependencies]

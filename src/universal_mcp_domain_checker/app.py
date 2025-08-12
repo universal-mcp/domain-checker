@@ -1,12 +1,10 @@
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
-import json
 import logging
 import sys
 import dns.resolver
 import requests
-import time
-from typing import Optional, List, Dict, Any
+from typing import Optional, Dict, Any
 
 # Configure logging
 logging.basicConfig(

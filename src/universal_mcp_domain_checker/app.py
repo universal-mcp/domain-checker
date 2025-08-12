@@ -78,7 +78,36 @@ class DomainCheckerApp(APIApplication):
                 return False
 
     async def check_domain_tool(self, domain: str) -> Dict[str, Any]:
-        """Check if a domain is available for registration"""
+        """
+        Checks if a domain is available for registration by querying DNS records and RDAP data.
+
+        This method performs a comprehensive domain availability check by first checking DNS records
+        and then querying RDAP (Registration Data Access Protocol) servers for detailed registration
+        information. It provides detailed information about registered domains including registrar,
+        registration date, and expiration date.
+
+        Args:
+            domain: String representing the domain name to check (e.g., "example.com")
+
+        Returns:
+            Dictionary containing domain availability information with the following keys:
+            - domain: The domain name that was checked
+            - status: "Registered" or "Available"
+            - registrar: Name of the registrar (or None/Unknown if not registered)
+            - registration_date: Domain registration date (or None/Unknown)
+            - expiration_date: Domain expiration date (or None/Unknown)
+            - has_dns: Boolean indicating if DNS records exist
+            - rdap_data_available: Boolean indicating if RDAP data was retrieved
+            - note: Additional information when needed
+
+        Raises:
+            DNSException: When DNS resolution fails due to network issues or invalid domain format
+            RequestException: When RDAP queries fail due to network issues or server errors
+            ValueError: When the domain parameter is empty or contains invalid characters
+
+        Tags:
+            domain, availability, registration, dns, rdap, important
+        """
         logger.info(f"Checking domain: {domain}")
         
         # First check DNS
@@ -161,7 +190,35 @@ class DomainCheckerApp(APIApplication):
         }
 
     async def check_tlds_tool(self, keyword: str) -> Dict[str, Any]:
-        """Check a keyword across top TLDs"""
+        """
+        Checks a keyword across multiple top-level domains (TLDs) to find available domain names.
+
+        This method systematically checks a given keyword across 14 popular TLDs including .com, .net,
+        .org, .io, .co, .app, .dev, .ai, .me, .info, .xyz, .online, .site, and .tech. It performs
+        DNS lookups and RDAP queries to determine domain availability and provides a comprehensive
+        report of available and taken domains.
+
+        Args:
+            keyword: String representing the keyword to check across TLDs (e.g., "myapp")
+
+        Returns:
+            Dictionary containing TLD availability information with the following keys:
+            - keyword: The keyword that was checked
+            - tlds_checked: Number of TLDs checked (14)
+            - available_count: Number of available domains found
+            - taken_count: Number of taken domains found
+            - available_domains: List of available domain names
+            - taken_domains: List of taken domain names
+            - tlds_checked_list: Complete list of TLDs that were checked
+
+        Raises:
+            DNSException: When DNS resolution fails due to network issues or invalid domain format
+            RequestException: When RDAP queries fail due to network issues or server errors
+            ValueError: When the keyword parameter is empty or contains invalid characters
+
+        Tags:
+            tld, keyword, domain-search, availability, bulk-check, important
+        """
         logger.info(f"Checking keyword: {keyword} across TLDs")
         
         results = []
